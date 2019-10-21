@@ -76,16 +76,24 @@ class WhatsYourName extends React.Component {
   //       entered to the input there.
   onNameChange(event) {
     // Huh... There's something wrong here...
-    this.setState({bad_attribute: "ChangeME!"});
+    console.log(event.target.value)
+    this.setState({name: event.target.value});
   }
 
   render() {
-    return (
-      <div>
-        <p>Hello {this.state.name}</p>
-        <input type="text" name="name" onChange={this.onNameChange} />
-      </div>
+    let enterNameTextField = (<input type="text" name="name" onChange={this.onNameChange} />);
+
+    let enterNameDisplay = (
+        <p>Hey there. Enter your name.</p>
     );
+
+    let greetNameDisplay = (
+        <p>Hello {this.state.name}</p>
+    );
+
+    let greetingDisplay = this.state.name.length > 0 ? greetNameDisplay : enterNameDisplay;
+
+    return ( <div>{greetingDisplay} {enterNameTextField}</div> );
   }
 }
 
