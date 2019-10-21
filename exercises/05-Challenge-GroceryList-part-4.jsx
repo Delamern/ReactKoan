@@ -58,7 +58,7 @@ class GroceryList extends React.Component {
   }
 
   addGroceryItem() {
-    if(this.state.newGroceryName) {
+    if (this.state.newGroceryName) {
       let newGroceryItem = { name: this.state.newGroceryName };
       this.setState({
         groceries: this.state.groceries.concat([newGroceryItem])
@@ -67,38 +67,50 @@ class GroceryList extends React.Component {
   }
 
   clearList(event) {
-    this.setState({groceries: []});
+    this.setState({ groceries: [] });
   }
 
   // Fill the definition of the following method to allow completing each item
   // Hint 1: Pay attention to the element's index on the list.
   toggleGroceryCompleteness(groceryIndex) {
-    // Put your code here
+    let updatedGroceries = this.state.groceries;
+    updatedGroceries[groceryIndex].completed = !this.state.groceries[groceryIndex].completed;
+    this.setState(prevState => ({
+      groceries: updatedGroceries
+    }));
   }
 
   render() {
     let groceriesComponents = [],
-        newProductInput,
-        newProductAddButton,
-        clearListButton;
-    for(var index = 0; index < this.state.groceries.length; index++) {
+      newProductInput,
+      newProductAddButton,
+      clearListButton;
+    for (var index = 0; index < this.state.groceries.length; index++) {
       groceriesComponents.push(
-          <GroceryListItem
-            grocery={this.state.groceries[index]}
-            onComplete={this.toggleGroceryCompleteness.bind(this, index)}
-          />
+        <GroceryListItem
+          grocery={this.state.groceries[index]}
+          onComplete={this.toggleGroceryCompleteness.bind(this, index)}
+        />
       );
     }
 
-    newProductInput = <input className='new-item' type="text" onChange={this.inputChanged}/>;
-    newProductAddButton = <button className='add-product' onClick={this.addGroceryItem}>Add new Product</button>;
-    clearListButton = <button className='clear-list' onClick={this.clearList}>Clear the List</button>;
+    newProductInput = (
+      <input className="new-item" type="text" onChange={this.inputChanged} />
+    );
+    newProductAddButton = (
+      <button className="add-product" onClick={this.addGroceryItem}>
+        Add new Product
+      </button>
+    );
+    clearListButton = (
+      <button className="clear-list" onClick={this.clearList}>
+        Clear the List
+      </button>
+    );
 
     return (
       <div>
-        <ul>
-          {groceriesComponents}
-        </ul>
+        <ul>{groceriesComponents}</ul>
         {newProductInput}
         {newProductAddButton}
         {clearListButton}
@@ -113,7 +125,7 @@ class GroceryListItem extends React.Component {
   }
 
   render() {
-    let completed = this.props.grocery.completed ? "completed" : '';
+    let completed = this.props.grocery.completed ? "completed" : "";
     return (
       <li className={completed} onClick={this.props.onComplete}>
         {this.props.grocery.name}
